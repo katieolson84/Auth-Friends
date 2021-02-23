@@ -1,17 +1,24 @@
 import React, { useState } from 'react';
-// import { axiosWithAuth } from '../utils/axiosWithAuth';
-import axios from 'axios';
+import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 const initialFormValues = {
-    username: "",
-    password: "",
+    credentials: {
+        username: "",
+        password: "",
+    }
+
 }
 
  const Login = () => {
     const [formValues, setFormValues] = useState(initialFormValues);
 
     const handleChange = (e) => {
-        setFormValues({ ...formValues, [e.target.name]: e.target.value});
+        setFormValues({
+            credentials: {
+                ...formValues, 
+                [e.target.name]: e.target.value
+            }
+        })
     };
 
     const handleLogin = (e) => {
@@ -22,38 +29,39 @@ const initialFormValues = {
         password: 'i<3Lambd4',
     };
 
-    axios
-        .post('http://localhost:5000', userLogin)
+    axiosWithAuth()
+        .post('/login', userLogin)
         .then((res) => {
-            localStorage.setItem('token', JSON.stringify(res.data.payload))
+            localStorage.setItem('token', JSON.stringify(res.data.payload));
+            console.log(res);
         })
-
+        .catch((err) => {
+        console.log(err);
+        })
     };
-
-
-
 
     return (
         <div>
-            <form onSumbit={handleLogin}>
+            <form onSubmit={handleLogin}>
                 <label>
                     UserName:
                     <input
                         type="text"
                         name="username"
-                        value={formValues.username}
-                        onchange={handleChange}
+                        value={formValues.credentials.username}
+                        onChange={handleChange}
                         />
                 </label>
                 <label>
                     Password:
                     <input
-                        type="text"
+                        type="password"
                         name="password"
-                        value={formValues.password}
-                        onchange={handleChange}
+                        value={formValues.credentials.password}
+                        onChange={handleChange}
                         />
                 </label>
+                <button>Login</button>
             </form>
         </div>
     )
