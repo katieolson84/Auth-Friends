@@ -6,10 +6,9 @@ const initialFormValues = {
         username: "",
         password: "",
     }
-
 }
 
- const Login = () => {
+ const Login = (props) => {
     const [formValues, setFormValues] = useState(initialFormValues);
 
     const handleChange = (e) => {
@@ -34,6 +33,7 @@ const initialFormValues = {
         .then((res) => {
             localStorage.setItem('token', JSON.stringify(res.data.payload));
             console.log(res);
+            props.history.push('./friendsProtected');
         })
         .catch((err) => {
         console.log(err);
