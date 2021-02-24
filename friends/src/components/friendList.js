@@ -3,6 +3,7 @@ import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 // Component
 import Friend from "./friend";
+import NewFriendForm from './NewFriendForm'
 
 
 const FriendList = () => {
@@ -27,6 +28,7 @@ const FriendList = () => {
 
     return (
         <div>
+            <NewFriendForm />
             <h1>Friends List</h1>
             <div className="friend-container">  
                 {friends.map((friend) => {
